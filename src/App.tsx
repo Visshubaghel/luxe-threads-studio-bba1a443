@@ -20,7 +20,7 @@ const App = () => (
     <TooltipProvider>
       <CartProvider>
         <Sonner />
-        <BrowserRouter>
+        <HashRouter>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/shop" element={<Shop />} />
