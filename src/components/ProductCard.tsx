@@ -15,40 +15,50 @@ export default function ProductCard({ product, index = 0 }: Props) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1, ease: [0.2, 0, 0, 1] }}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.6, delay: index * 0.08, ease: [0.2, 0, 0, 1] }}
     >
       <Link to={`/product/${product.id}`} className="group block">
         <div className="relative overflow-hidden mb-4">
-          <img
+          <motion.img
+            whileHover={{ scale: 1.04 }}
+            transition={{ duration: 0.7, ease: [0.2, 0, 0, 1] }}
             src={product.image}
             alt={product.name}
-            className="w-full aspect-[3/4] object-cover transition-transform duration-700 ease-[cubic-bezier(0.2,0,0,1)] group-hover:scale-[1.02]"
+            className="w-full aspect-[3/4] object-cover"
             loading="lazy"
           />
-          <button
+          <motion.button
             onClick={(e) => {
               e.preventDefault();
               toggleWishlist(product.id);
             }}
+            whileHover={{ scale: 1.15 }}
+            whileTap={{ scale: 0.9 }}
             className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             aria-label="Add to wishlist"
           >
             <Heart
               strokeWidth={1}
               size={20}
-              className={isWished ? "fill-foreground" : ""}
+              className={`transition-all duration-300 ${isWished ? "fill-foreground scale-110" : ""}`}
             />
-          </button>
+          </motion.button>
           {product.isNew && (
-            <span className="absolute top-4 left-4 heading-ui text-[10px] bg-background/90 px-2 py-1">
+            <motion.span
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 + index * 0.08 }}
+              className="absolute top-4 left-4 heading-ui text-[10px] bg-background/90 backdrop-blur-sm px-2 py-1"
+            >
               New
-            </span>
+            </motion.span>
           )}
         </div>
         <div className="space-y-1">
-          <p className="heading-ui text-[11px]">{product.name}</p>
+          <p className="heading-ui text-[11px] group-hover:translate-x-0.5 transition-transform duration-300">{product.name}</p>
           <div className="flex items-center gap-2">
             <p className="text-sm">₹{product.price.toLocaleString("en-IN")}</p>
             {product.originalPrice && (
